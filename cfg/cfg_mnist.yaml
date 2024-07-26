@@ -1,0 +1,75 @@
+dataset: MNIST10K
+data_dir: data
+scaler: MinMaxScaler
+batch_size: 100
+seeds: 1
+epochs: &epochs 100
+
+ae_non_gated_epochs: 10
+ae_pretrain_epochs: 20 #300
+start_global_gates_training_on_epoch: 50
+
+mask_percentage: 0.9
+latent_noise_std: 0.01
+
+trainer:
+  devices: 1
+  accelerator: gpu
+  max_epochs: *epochs
+  deterministic: true
+  logger: true
+  log_every_n_steps: 10
+  check_val_every_n_epoch: 10
+  enable_checkpointing: false
+  num_sanity_val_steps: 0
+
+
+# GTCR loss
+gtcr_loss: true
+gtcr_projection_dim: null # for large number of features use it
+gtcr_eps: 1
+
+
+# Compression loss
+eps: 0.1
+
+# Gating Net
+use_gating: true
+gates_hidden_dim: 784
+
+# EncoderDecoder
+encdec:
+  - 512
+  - 512
+  - 2048
+  - &bn_layer 10
+  - 2048
+  - 512
+  - 512
+
+clustering_head:
+  - *bn_layer
+  - 2048
+
+tau: 100
+
+aux_classifier:
+  - 2048
+
+local_gates_lambda: 1
+global_gates_lambda: 0.0001
+gtcr_lambda: 0.01
+
+lr:
+  pretrain: 1e-3
+  clustering: 1e-2
+  aux_classifier: 1e-2
+
+sched:
+  pretrain_min_lr: 1e-6
+  clustering_min_lr: 1e-6
+
+
+
+save_seed_checkpoints: false
+validate: true
