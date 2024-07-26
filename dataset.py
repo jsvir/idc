@@ -37,7 +37,7 @@ class ClusteringDataset(Dataset):
         if self.labels is not None:
             print('Y.shape: ', self.labels.shape)
             for y_u in np.unique(self.labels):
-                print(f'{y_u}: {np.sum(self.targets == y_u)}')
+                print(f'{y_u}: {np.sum(self.labels == y_u)}')
             print(f"Y.min={self.labels.min()}, Y.max={self.labels.max()}")
 
     @classmethod
