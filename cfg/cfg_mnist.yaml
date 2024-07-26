@@ -1,5 +1,5 @@
 dataset: MNIST10K
-data_dir: data
+data_dir: idc/data
 scaler: MinMaxScaler
 batch_size: 100
 seeds: 1

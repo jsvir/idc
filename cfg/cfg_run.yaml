@@ -1,4 +1,4 @@
-filepath_samples: data/pbmc_x.npz
+filepath_samples: idc/data/pbmc_x.npz
 num_clusters: 2
 
 batch_size: 256
