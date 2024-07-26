@@ -1,7 +1,11 @@
 
 
 # Interpretable Deep Clustering
-### An official implementation of the ICML 2024 accepted paper: 
+
+<img src="img/pbmc.gif" width="300">
+
+
+## An official implementation of the ICML 2024 accepted paper: 
 ## [Interpretable Deep Clustering for Tabular Data](https://arxiv.org/abs/2306.04785)
 
 <img src="img/img.png" width="500">
