@@ -33,3 +33,4 @@ Please cite our paper if you use this code:
 ### TODO list:
 - [ ] Add interpretability evaluation  scripts
 - [ ] Add experiments configs
+- [ ] Add features index outputs

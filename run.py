@@ -295,7 +295,7 @@ class BaseModule(LightningModule):
         embedding = reducer.fit_transform(torch.cat(val_embs_list, dim=0).cpu().numpy())
         plt.figure(figsize=(10, 7))
         plt.scatter(embedding[:, 0], embedding[:, 1], c=cluster_mtx.numpy(), s=50, edgecolor='k')
-        plt.title(f'Clustering (UMAP). Epoch: {current_epoch}. Silhouette: {silhouette}. DBI: {dbi}')
+        plt.title(f'Clustering (UMAP). Epoch: {current_epoch}. Silhouette: {silhouette:0.3f}. DBI: {dbi:0.3f}')
         plt.savefig(f"umap_epoch_{current_epoch}.png")
 
     def on_validation_epoch_end(self):
