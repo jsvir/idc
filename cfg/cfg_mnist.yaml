@@ -3,11 +3,11 @@ data_dir: idc/data
 scaler: MinMaxScaler
 batch_size: 100
 seeds: 1
-epochs: &epochs 100
+epochs: &epochs 700
 
 ae_non_gated_epochs: 10
-ae_pretrain_epochs: 20 #300
-start_global_gates_training_on_epoch: 50
+ae_pretrain_epochs: 300
+start_global_gates_training_on_epoch: 400
 
 mask_percentage: 0.9
 latent_noise_std: 0.01
