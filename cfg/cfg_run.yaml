@@ -5,8 +5,8 @@ batch_size: 256
 seeds: 1
 epochs: &epochs 200
 
-ae_non_gated_epochs: 5 #50
-ae_pretrain_epochs: 10 #100
+ae_non_gated_epochs: 5 #50 we reduce the number of epochs for training inside a notebook
+ae_pretrain_epochs: 10 #100 we reduce the number of epochs for training inside a notebook
 start_global_gates_training_on_epoch: 150
 
 mask_percentage: 0.9
