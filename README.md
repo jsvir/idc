@@ -14,7 +14,9 @@
 1. Do you have a dataset without labels? Use our colab example notebook: <a target="_blank" href="https://colab.research.google.com/github/jsvir/idc/blob/main/idc_example.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
-2. If you have a labeled dataset, please follow the colab with evaluation example: TODO
+2. If you have a labeled dataset, please follow the colab with evaluation example: <a target="_blank" href="https://colab.research.google.com/github/jsvir/idc/blob/main/idc_evaluate.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
 
 
 ### Citation:
