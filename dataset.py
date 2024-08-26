@@ -4,6 +4,10 @@ import numpy as np
 import torch
 from sklearn import preprocessing
 from scipy.io import loadmat
+from sklearn.preprocessing import MinMaxScaler
+from scipy.stats import zscore
+import matplotlib.pyplot as plt
+from sklearn import datasets
 
 
 class ClusteringDataset(Dataset):
@@ -288,3 +292,103 @@ def remove_zero_columns(X):
             non_zero_columns.append(col)
     X = X[:, non_zero_columns]
     return X
+
+
+class Synthetic(Dataset):
+    def __init__(self, X, Y):
+        super().__init__()
+        self.data = X
+        self.targets = Y
+
+    def __getitem__(self, index: int):
+        x = self.data[index]
+        return torch.tensor(x).float(), torch.tensor(self.targets[index]).long()
+
+    def __len__(self) -> int:
+        return len(self.data)
+
+    @classmethod
+    def setup(cls, num_samples=5000, num_features=3, num_clusters=3, num_noise_dims=10):
+        """
+        Make num_clusters + 1 clusters in 3d and adds additional num_noise_dims noise features
+        :param num_samples: number of samples in the dataset
+        :param num_features: number of features in the dataset
+        :param num_clusters: number of clusters in the dataset
+        :param num_noise_dims: number of noise dimensions in addition to num_features
+        :return: generates a dataset
+        """
+        x_2d, y_2d = datasets.make_blobs(num_samples, num_features-1, centers=num_clusters, cluster_std=.5,
+                                         random_state=0)
+        # split the points for cluster==2 into 2 clusters:
+        max_x = x_2d[:, 1].max()
+        min_x = x_2d[:, 1].min()
+        x_y_2 = x_2d[y_2d == 2][:, 1]
+        x_y_2 = MinMaxScaler((0, 1)).fit_transform(x_y_2.reshape(-1, 1)).reshape(-1)
+        x_y_2 = MinMaxScaler((min_x, max_x)).fit_transform(x_y_2.reshape(-1, 1)).reshape(-1)
+        x_2d[:, 1][y_2d == 2] = x_y_2
+
+        z = np.random.rand(num_samples)
+        y_2d[(y_2d == 2) & (z > 0.5)] = 3
+
+        x_2d[:, 0][y_2d == 0] = x_2d[:, 0][y_2d == 1]
+
+        bg = np.random.normal(loc=0, scale=0.01, size=(num_samples, num_noise_dims))
+        X = np.concatenate([x_2d, z.reshape(-1, 1), bg], axis=1)
+        X[:, 2][y_2d == 3] = X[:, 2][y_2d == 3] + 0.5  # separate in z axis
+        X[:, 2][y_2d == 0] = MinMaxScaler(
+            (X[:, 2][(y_2d == 3) | (y_2d == 2)].min(), X[:, 2][(y_2d == 3) | (y_2d == 2)].max())).fit_transform(
+            X[:, 2][y_2d == 0].reshape(-1, 1)).reshape(-1)
+        X[:, 2][y_2d == 1] = MinMaxScaler(
+            (X[:, 2][(y_2d == 3) | (y_2d == 2)].min(), X[:, 2][(y_2d == 3) | (y_2d == 2)].max())).fit_transform(
+            X[:, 2][y_2d == 1].reshape(-1, 1)).reshape(-1)
+
+        Y = y_2d
+
+        X4 = X[Y == 3]
+        max_len = len(X4)
+        X1 = X[Y == 0][:max_len, :]
+        X2 = X[Y == 1][:max_len, :]
+        X3 = X[Y == 2][:max_len, :]
+
+        Y1 = Y[Y == 0][:max_len]
+        Y2 = Y[Y == 1][:max_len]
+        Y3 = Y[Y == 2][:max_len]
+        Y4 = Y[Y == 3][:max_len]
+        X = np.concatenate([X1, X2, X3, X4], axis=0)
+        Y = np.concatenate([Y1, Y2, Y3, Y4], axis=0)
+
+        print("Class stats:")
+        for y_i in np.unique(Y):
+            print(f"{y_i}: {len(Y[Y == y_i])} samples")
+        X[:, :3] = zscore(X[:, :3])
+
+        plt.style.use('classic')
+        plt.rcParams['axes.spines.right'] = False
+        plt.rcParams['axes.spines.top'] = False
+        fig = plt.figure()
+        fig.set_facecolor('w')
+        plt.scatter(X[:, 0], X[:, 1], c=Y, s=100, alpha=0.8, cmap='viridis', edgecolor='k', linewidth=2)
+        plt.xlabel('$X_1$', fontsize=30)
+        plt.ylabel('$X_2$', fontsize=30)
+        plt.tight_layout()
+        plt.xticks([])
+        plt.yticks([])
+        plt.savefig("synth_X_1_X_2.png")
+
+        plt.clf()
+        fig = plt.figure()
+        fig.set_facecolor('w')
+        plt.scatter(X[:, 0], X[:, 2], c=Y, s=100, alpha=0.8, cmap='viridis', edgecolor='k', linewidth=2)
+        plt.xlabel('$X_1$', fontsize=30)
+        plt.ylabel('$X_3$', fontsize=30)
+        plt.tight_layout()
+        plt.xticks([])
+        plt.yticks([])
+        plt.savefig("synth_X_1_X_3.png")
+        return cls(X, Y)
+
+    def num_classes(self):
+        return len(np.unique(self.targets))
+
+    def num_features(self):
+        return self.data.shape[-1]

@@ -38,3 +38,4 @@ Please cite our paper if you use this code:
 - [ ] Add interpretability evaluation  scripts
 - [ ] Add experiments configs
 - [ ] Add features index outputs
+- [x] Add synthetic dataset deneration code
