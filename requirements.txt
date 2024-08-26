@@ -7,3 +7,4 @@ matplotlib==3.6.3
 matplotlib-inline==0.1.6
 umap-learn==0.5.6
 torchvision==0.15.2
+munkres==1.1.4
