@@ -5,19 +5,30 @@
 <img src="img/pbmc.gif" width="300">
 
 
-## An official implementation of the ICML 2024 accepted paper: 
-## [Interpretable Deep Clustering for Tabular Data](https://openreview.net/pdf?id=QPy7zLfvof)
+## An official implementation of the ICML 2024 accepted paper: [Interpretable Deep Clustering for Tabular Data](https://openreview.net/pdf?id=QPy7zLfvof)
 
 <img src="img/img.png" width="500">
 
 
+## UPDATES:
 
+- 2024-10-08: 
+    * we add an example notebook that produces a NUDFT plot and compares gated vs non-gated supervised models
+    * we present below a fixed figure 4 from the paper: the frequency values are normalized for each model and gated features are used for IDC model rather than raw features.
+  
 
 ## How to run on your data:
 
 1. Do you have a dataset without labels? Use our colab example notebook: <a target="_blank" href="https://colab.research.google.com/github/jsvir/idc/blob/main/idc_example.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 2. If you have a labeled dataset, please follow the colab with evaluation example: <a target="_blank" href="https://colab.research.google.com/github/jsvir/idc/blob/main/idc_evaluate.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
+
+## Fixed Figure 4. Spectral properties of the learned predictive function using ALLAML dataset. 
+
+The model trained with the gating network (IDC) has higher Fourier amplitudes at all frequency levels than
+without gates (IDCw/o_gates) the baseline (TELL). This suggests that IDC can better handle the inductive bias of tabular data.
+
+<img src="img/nudft_ALLAML.png" width="400">
 
 ### Citation:
 Please cite our paper if you use this code:
