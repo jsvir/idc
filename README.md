@@ -1,14 +1,16 @@
 
+<div style="text-align: center;">
+
 
 # Interpretable Deep Clustering
 
 <img src="img/pbmc.gif" width="300">
-
+</div>
 
 ## An official implementation of the ICML 2024 accepted paper: [Interpretable Deep Clustering for Tabular Data](https://openreview.net/pdf?id=QPy7zLfvof)
-
+<div style="text-align: center;">
 <img src="img/img.png" width="500">
-
+</div>
 
 ## UPDATES:
 
@@ -27,9 +29,9 @@
 
 The model trained with the gating network (IDC) has higher Fourier amplitudes at all frequency levels than
 without gates (IDCw/o_gates) the baseline (TELL). This suggests that IDC can better handle the inductive bias of tabular data.
-
+<div style="text-align: center;">
 <img src="img/nudft_ALLAML.png" width="400">
-
+</div>
 ### Citation:
 Please cite our paper if you use this code:
 
